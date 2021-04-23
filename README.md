@@ -2,9 +2,11 @@
 
 *Christoph Windheuser*
 
-My Natural Language Processing Book
+My Natural Language Processing (NLP) Book
 
-Latest update: December 18, 2020
+Latest update: April 23, 2021
+
+The md-files are written with the text editor [*Typora*](https://typora.io/). It is recommended to read them in Typora as well (or read the provided pdf documents).
 
 ## Content
 
