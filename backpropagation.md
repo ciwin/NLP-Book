@@ -1,8 +1,40 @@
 # Some mathematical definitions
 
+*Christoph Windheuser, April 24, 2021*
+
 ## Probability and Information Theory
 
 *(Goodfellow et.al. Deep Learning Book, p. 53 ff.)*
+
+### Random Variables
+
+*(Goodfellow et.al. Deep Learning Book, p. 56)*
+
+A *random variable* is a variable $x$, that can take different values randomly. Random variables can be *discretre* or *continuous*. We only describe discrete random variables here. Discrete random variables have an finite or countably infinite number of states. 
+
+Throwing a dice is a discrete random variable with 6 different states. 
+
+Random variables can also be vectors $\textbf x$ consisting of several variables $x$.
+
+Random variables only describes the states that are possible. Usually random variables are coupled with a *probability distribution* that describes the probability of each state of the random variable.
+
+### Probability Distributions
+
+*(Goodfellow et.al. Deep Learning Book, p. 56)*
+
+A *probability distribution* $P(x)$ of a random variable $x$ is a description of the probability that a random variable takes each of its possible states. A probability distribution $P(x)$ must satisfy the following properties:
+
+* For all states $x$ $P(x)$ must be greater or equal to 0 and smaller or equal to 1. If $P(x) = 0$ the state $x$ is *impossible*. If $P(x) = 1$, the state $x$ is a *sure event*, guaranteed to happen.
+* The sum of $P(x)$ over all states must be 1: $\sum_{x \in x} P(x) = 1$. 
+
+In case of a fair dice, the probability distribution is $\frac{1}{6}$ for all states:
+$$
+P(1) = P(2) = P(3) = P(4) = P(5) = P(6) = \frac{1}{6}
+$$
+The sum of $P(x)$ over all states is:
+$$
+\sum_{i=1}^{6}P(i) = 1
+$$
 
 ### Expectation
 
