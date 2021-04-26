@@ -1,6 +1,50 @@
 # Some mathematical definitions
 
-*Christoph Windheuser, April 25, 2021*
+*Christoph Windheuser, April 26, 2021*
+
+## Linear Algebra
+
+### Norms
+
+*(Goodfellow et.al. Deep Learning Book, p. 39)*
+
+*Norms* calculate a scalar value from a vector, which is equivalent to the *size* or *length* of the vector.
+
+A norm is any function $f(\textbf x)$ of a vector $\textbf x$ with the following properties:
+
+* $f(\textbf x) = 0 \Rightarrow \textbf x = 0$
+* $f(\textbf x + \textbf y) \leq f(\textbf x) + f(\textbf y)$
+* $\forall c \in \R: f(c \, \textbf x) = |c|f(\textbf x)$
+
+$L^p$ for $p \in \N$ and $p \geq 1$  are a class of very popular norms:
+$$
+||\textbf x ||_P = (\sum_i |\textbf x_i|^p)^\frac{1}{p}
+$$
+
+#### $L^1$ Norm
+
+The $L^1$ norm is the absolute value of a vector $\textbf x$:
+$$
+||\textbf x ||_1 = \sum_i |\textbf x_i|
+$$
+
+#### $L^2$ Norm
+
+The $L^2$ norm is know as the *Euclidean norm*. It is the Euclidean distance from the origin to the point identified by the vector $\textbf x$. 
+$$
+||\textbf x ||_2 = \sqrt{\sum_{i} {\textbf x_{i}^{\mathstrut 2}}}
+$$
+As the $L^2$ is very common, the subscrpt 2 is sometimes omitted and the norm is written as $||\textbf x||$. 
+
+#### Squared $L^2$ Norm
+
+The squared $L^2$ norm is the $L^2$ norm without the square root:
+$$
+||\textbf x||^2_2 = \sum_i \textbf x_i^2
+$$
+The squared $L^2$ norm has a lot of mathematical advantages and is often used in machine learning. It can simply be calculated as $\textbf x^\intercal \textbf x$ and the derivative is much simpler and convenient as in case of the $L^2$ norm. 
+
+
 
 ## Probability and Information Theory
 
