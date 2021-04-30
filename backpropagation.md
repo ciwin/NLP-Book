@@ -13,7 +13,7 @@ In order to train the desired behavior of a machine learning model with a set of
 $$
 J(\theta) = c
 $$
-In case of a *classification task*, the network has to assign an $n$-dimensional input vector $\textbf x \in \R^n$ to a certain class $i$ of $k$ classes $i \in \{1, ..., k \}$. One possibility to achieve this is to train the network to compute a *probability distribution* over all classes $k$ for a given $\textbf x$. The cost function could be the *mean square error (MSE)* of the output of the model compared to the desired output of the model.
+Modern Feed-Forward Neural Networks are trained using the maximum likelihood function, which means that the cost function is the negative log-likelihood (NLL) or equivalently the cross-entropy between the training data distribution and the model distribution.
 
 ### Gradient Descent
 
@@ -66,6 +66,22 @@ using examples $\textbf x^{(i)}$ and $\textbf y^{(i)}$ from the minibatch $B_X$ 
 $$
 \theta^{\, new} = \theta - \epsilon \,\textbf g
 $$
+
+### Activation Function
+
+The most widely used activation function in modern feedforward neural networks is the *"Rectified Linear Unit"* or *RELU-function*. It is piecewise linear and has a non-linear point at 0. The function is easy to implement and very efficient. It is defined:
+$$
+f_{RELU}(x)=\max\{0, x\}
+$$
+![The RELU activation function](/home/christoph/dev/private/NLP-Book/relu.png)
+
+The derivative of the RELU-function is defined 0 for $x <= 0$ and 1 for $x > 0$.
+
+![The derivative of the RELU function](/home/christoph/dev/private/NLP-Book/relu_derivative.png)
+
+### Weight Initialization
+
+Before starting the learning algorithm, it is important to initialize the weights with small random values.
 
 
 
