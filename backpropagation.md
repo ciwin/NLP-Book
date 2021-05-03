@@ -67,9 +67,9 @@ $$
 \theta^{\, new} = \theta - \epsilon \,\textbf g
 $$
 
-### Activation Function
+### Activation Function for Hidden Units
 
-The most widely used activation function in modern feedforward neural networks is the *"Rectified Linear Unit"* or *RELU-function*. It is piecewise linear and has a non-linear point at 0. The function is easy to implement and very efficient. It is defined:
+The most widely used activation function in modern feedforward neural networks for hidden units is the *"Rectified Linear Unit"* or *RELU-function*. It is piecewise linear and has a non-linear point at 0. The function is easy to implement and very efficient. It is defined:
 $$
 f_{RELU}(x)=\max\{0, x\}
 $$
@@ -78,6 +78,29 @@ $$
 The derivative of the RELU-function is defined 0 for $x <= 0$ and 1 for $x > 0$.
 
 ![The derivative of the RELU function](/home/christoph/dev/private/NLP-Book/relu_derivative.png)
+
+### Activation Function for the Output Units - the Softmax Function
+
+*(Goodfellow et.al. Deep Learning Book, p. 183)*
+
+If the feedforward network is trained as a classifier to present the probability distribution over $n$ different classes, the most used activation function of the output units is the *softmax function*. 
+
+For a feedforward network working as a classifier, we have to produce a vector $\textbf y$ with $y_i = P(y = i|\textbf x)$ as the probability that the input vector $\textbf x$ belongs to category $i$. To ensure that the output vector $\textbf y$ is a valid probability distribution, all $y_i$ of vector $\textbf y$ must be between 0 and 1 and must sum up to 1. The softmax function ensures this:
+$$
+{\text softmax}(z_i) = \frac{\exp(z_i)}{\sum_{j=1}^{n}\exp(z_j)}
+$$
+$z_i$ is the output of a linear layer as the output layer:
+$$
+\textbf z = \textbf W^T \textbf h + \textbf b
+$$
+where:
+$$
+z_i = \log P(y = i|\textbf x)
+$$
+and therefore:
+$$
+{\text softmax}(z_i) = P(y=i|\textbf x) - \log \sum_{j=1}^n \exp(P(y=j|\textbf x)) 
+$$
 
 ### Weight Initialization
 

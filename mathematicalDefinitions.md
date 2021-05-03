@@ -198,6 +198,6 @@ $$
 $$
 If the examples are supposed to be i.i.d. (independent and identically distributed) then this can be decomposed into:
 $$
-\theta_{ML} = \operatorname*{arg\,max}_\theta \sum_{i=1}^m P(y^{(i)}|(x^{(i)};\theta)
+\theta_{ML} = \operatorname*{arg\,max}_\theta \sum_{i=1}^m \log P(y^{(i)}|(x^{(i)};\theta)
 $$
 
