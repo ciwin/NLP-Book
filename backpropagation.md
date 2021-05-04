@@ -7,6 +7,37 @@ Definition of *Supervised Learning*:
 
 Supervised learning involves observing several examples $X = \{\textbf x^{(1)}, ...,\textbf x^{(m)} \}$ of a random vector $\textbf x$ and associated values $Y = \{\textbf y^{(1)}, ...,\textbf y^{(m)} \}$ of a random vector $\textbf y$, and learning to predict $\textbf y$ from $\textbf x$, usually by estimating $p(\textbf y |\textbf x)$.
 
+### Activation Function for Hidden Units
+
+The most widely used activation function in modern feedforward neural networks for hidden units is the *"Rectified Linear Unit"* or *RELU-function*. It is piecewise linear and has a non-linear point at 0. The function is easy to implement and very efficient. It is defined:
+$$
+f_{RELU}(x)=\max\{0, x\}
+$$
+![The RELU activation function](/home/christoph/dev/private/NLP-Book/relu.png)
+
+The derivative of the RELU-function is defined 0 for $x <= 0$ and 1 for $x > 0$.
+
+![The derivative of the RELU function](/home/christoph/dev/private/NLP-Book/relu_derivative.png)
+
+### Activation Function for the Output Units - the Softmax Function
+
+*(Goodfellow et.al. Deep Learning Book, p. 183)*
+
+If the feedforward network is trained as a classifier to present the probability distribution over $n$ different classes, the most used activation function of the output units is the *softmax function*. 
+
+For a feedforward network working as a classifier, we have to produce a vector $\textbf y$ with $y_i = P(y = i|\textbf x)$ as the probability that the input vector $\textbf x$ belongs to category $i$. To ensure that the output vector $\textbf y$ is a valid probability distribution, all $y_i$ of vector $\textbf y$ must be between 0 and 1 and must sum up to 1. The softmax function ensures this:
+$$
+\label{softmax}
+{\text softmax}(z_i) = \frac{\exp(z_i)}{\sum_{j=1}^{n}\exp(z_j)}
+$$
+$z_i$ is the output of a linear layer as the output layer:
+$$
+\textbf z = \textbf W^T \textbf h + \textbf b
+$$
+When the network is trained to minimize the log likelihood, the output unit $y_i$ approximates the conditional probability of class $i$ given input pattern $\textbf x$:
+$$
+y_i = P(y = i|\textbf x)
+$$
 ### Cost Function
 
 In order to train the desired behavior of a machine learning model with a set of parameters $\theta$ it is important to define the right *cost function*, as the gradient descent algorithm will minimize this function. The cost function $J(\theta)$ computes a *cost value* $c$ dependent on the model parameters $\theta$:
@@ -14,6 +45,23 @@ $$
 J(\theta) = c
 $$
 Modern Feed-Forward Neural Networks are trained using the maximum likelihood function, which means that the cost function is the negative log-likelihood (NLL) or equivalently the cross-entropy between the training data distribution and the model distribution.
+
+For multilayer perceptron classifier the negative conditional log-likelihood (NLL) as our cost function $J( \theta)$ of a set of parameter $\theta$ is defined as:
+$$
+\label{cfsm}
+J(\theta) = \frac{1}{m}\sum_{i=1}^m -\log p(\textbf y^{(i)}|\textbf x^{(i)};\theta)
+$$
+If we replace $p(\textbf y^{(i)}|\textbf x^{(i)})$ by the softmax function $(\ref{softmax})$, we get:
+$$
+\begin{equation}
+\begin{split}
+J(\theta) & = \frac{1}{m}\sum_{i=1}^m \left (-\log \frac{\exp(z_i)}{\sum_{j=1}^{n}\exp(z_j)} \right) \\
+          & = - \frac{1}{m}\sum_{i=1}^m \left (\log \exp(z_i) - \log \sum_{j=1}^{n}\exp(z_j)\right) \\
+          & = - \frac{1}{m}\sum_{i=1}^m \left (z_i - \log \sum_{j=1}^{n}\exp(z_j)\right)
+\end{split}
+\end{equation}
+$$
+Minimizing the NLL cost function $J(\theta)$ means to maximize $z_i$ (the output of unit $i$) and to minimize the term $\log \sum_{j=1}^{n}\exp(z_j)$ which means to minimize all other output units $j\neq i$. This demonstrates the discriminative power of the maximum likelihood estimation algorithm.
 
 ### Gradient Descent
 
@@ -34,6 +82,21 @@ $$
 \theta^{new} = \theta - \epsilon \nabla_{\theta} J(\theta)
 $$
 This iterative technique is called *gradient descent* and is generally attributed to *Augustin-Louis Cauchy*, who first suggested it in 1847. 
+
+### Optimizing the cost function with gradient descent
+
+The gradient of the cost function of $(\ref{cfsm})$ is defined as:
+$$
+\nabla_{\theta}J(\theta)= -\frac{1}{m}\sum_{i=1}^m \nabla_{\theta}\log p(\textbf y^{(i)}|\textbf x^{(i)};\theta)
+$$
+For every parameter $\theta_i$ the gradient $\nabla_{\theta i} J(\theta)$ has to be calculated:
+$$
+\nabla_{\theta i} J(\theta) = \frac{\partial J(\theta)}{\partial \theta_i}
+$$
+And the parameter $\theta_i$ is then changed by:
+$$
+\theta_i^{new} = \theta_i - \epsilon \nabla_{\theta i} J(\theta)
+$$
 
 ### Stochastic Gradient Descent (SGD)
 
@@ -65,41 +128,6 @@ $$
 using examples $\textbf x^{(i)}$ and $\textbf y^{(i)}$ from the minibatch $B_X$ and $B_Y$. Analog to formula $(\ref{gradient_descent2})$ the parameters $\theta$ are changed along the negative estimate of the gradient $\textbf g$ multiplied by the learning rate $\epsilon$:
 $$
 \theta^{\, new} = \theta - \epsilon \,\textbf g
-$$
-
-### Activation Function for Hidden Units
-
-The most widely used activation function in modern feedforward neural networks for hidden units is the *"Rectified Linear Unit"* or *RELU-function*. It is piecewise linear and has a non-linear point at 0. The function is easy to implement and very efficient. It is defined:
-$$
-f_{RELU}(x)=\max\{0, x\}
-$$
-![The RELU activation function](/home/christoph/dev/private/NLP-Book/relu.png)
-
-The derivative of the RELU-function is defined 0 for $x <= 0$ and 1 for $x > 0$.
-
-![The derivative of the RELU function](/home/christoph/dev/private/NLP-Book/relu_derivative.png)
-
-### Activation Function for the Output Units - the Softmax Function
-
-*(Goodfellow et.al. Deep Learning Book, p. 183)*
-
-If the feedforward network is trained as a classifier to present the probability distribution over $n$ different classes, the most used activation function of the output units is the *softmax function*. 
-
-For a feedforward network working as a classifier, we have to produce a vector $\textbf y$ with $y_i = P(y = i|\textbf x)$ as the probability that the input vector $\textbf x$ belongs to category $i$. To ensure that the output vector $\textbf y$ is a valid probability distribution, all $y_i$ of vector $\textbf y$ must be between 0 and 1 and must sum up to 1. The softmax function ensures this:
-$$
-{\text softmax}(z_i) = \frac{\exp(z_i)}{\sum_{j=1}^{n}\exp(z_j)}
-$$
-$z_i$ is the output of a linear layer as the output layer:
-$$
-\textbf z = \textbf W^T \textbf h + \textbf b
-$$
-where:
-$$
-z_i = \log P(y = i|\textbf x)
-$$
-and therefore:
-$$
-{\text softmax}(z_i) = P(y=i|\textbf x) - \log \sum_{j=1}^n \exp(P(y=j|\textbf x)) 
 $$
 
 ### Weight Initialization
