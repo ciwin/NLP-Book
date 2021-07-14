@@ -1,4 +1,4 @@
-*Christoph Windheuser, April 28, 2021*
+*Christoph Windheuser, July 14, 2021*
 
 ### Supervised Learning
 
@@ -13,11 +13,11 @@ The most widely used activation function in modern feedforward neural networks f
 $$
 f_{RELU}(x)=\max\{0, x\}
 $$
-![The RELU activation function](/home/christoph/dev/private/NLP-Book/relu.png)
+![The RELU activation function](relu.png)
 
 The derivative of the RELU-function is defined 0 for $x <= 0$ and 1 for $x > 0$.
 
-![The derivative of the RELU function](/home/christoph/dev/private/NLP-Book/relu_derivative.png)
+![The derivative of the RELU function](relu_derivative.png)
 
 ### Activation Function for the Output Units - the Softmax Function
 
@@ -133,6 +133,34 @@ $$
 ### Weight Initialization
 
 Before starting the learning algorithm, it is important to initialize the weights with small random values.
+
+### Label Smoothing
+
+*Label Smoothing Regularization* (LSR) is a technique to regularize a classifier during training and was introduced by Christian Szegedy et. al. in the 2015 paper *Rethinking the Inception Architecture for Computer Vision* ([link](https://arxiv.org/pdf/1512.00567.pdf)).
+
+In a Multilayer Neural Network classifier, the activation of the output layer is usually calculated with the *softmax function* (see formula $(\ref{softmax})$) and the network is trained with the negative log-likelihood (NLL) against the *one-hot* labels of the training set. This encourages the network to maximize the output of the correct unit and to bring all other units to an output of zero or very close to zero. The behavior can lead to over-fitting and a weaker generalization of the network, as the networks becomes too confident about its predictions.
+
+Szegedy et. al. propose to smooth the hard one-hot distribution of the labels by adding an additional distribution: For a label $y$ the original desired output of the network is: $q(y|x) = 1$ and $q(k|x) = 0$ for all $k \neq y$. We can say that $q(k|x) = \delta_{k, y}$   where $\delta_{k,y}$ is the *Dirac delta* with $\delta_{k,y} = 1$ if $k = y$ and $o$ for all $k \neq y$.
+
+Szegedy et. al. are proposing a new label distribution $q'(k|x)$ with:
+$$
+q'(k|x) = (1 - \epsilon) \delta_{k,y} + \epsilon u(k)
+$$
+which is a mixture of the original distribution $q(k|x)$ and a fixed distribution $u(k)$. The paper proposes a simple uniform distribution $u(k) = 1/K$, $K$ is the number different labels. The paper describes ImageNet experiments with $K = 1000$ classes and $\epsilon = 0.1$. They reported an consistent improvement of about $0.2\%$ by Label Smoothing Regularization. 
+
+#### Links
+
++ [Original paper by Christian Szegedy et. al. (2015)](https://arxiv.org/abs/1512.00567)
++ [How to implement Label Smoothing in TensorFlow or PyTorch (StackOverflow)](https://stackoverflow.com/questions/55681502/label-smoothing-in-pytorch)
+
+
+
+
+
+ 
+
+
+
 
 
 
